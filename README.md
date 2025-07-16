@@ -1,103 +1,115 @@
+
 # Informatica IDMC Excel
 
 **Informatica IDMC Excel** is a utility for interacting with the Informatica Intelligent Data Management Cloud (IDMC) platform using Microsoft Excel and Power Query.
 
-This project is designed to simplify daily tasks with metadata, jobs, and IDMC objects through a familiar Excel interface.
+This tool simplifies daily work with metadata, tasks, and IDMC objects via a familiar Excel interface.
+
+---
 
 ## Features
 
 - Connect to IDMC via REST API
-- Retrieve lists of tasks, mappings, connections, and other objects
-- Load metadata into Excel
-- Work with multiple organizations and environments
+- Retrieve lists of mappings, tasks, connections, and other metadata objects
+- Load metadata directly into Excel
+- Select which asset types to retrieve
+- Set custom record limits for asset queries
+- Option to include disabled fields from B360 metadat
+- Support for multiple organizations and environments
 
-
-## Installation and Usage
-
-1. Download the Excel file (`.xlsm`) containing macros.
-2. Enable macros in Excel.
-3. On the `Config` sheet, enter your Login URL and Username.
-4. Click the Login button and enter your password.
-5. The file includes 3 example sheets:
-   - *B360 Tenant Model*
-   - *B360 Model - Business Entity*
-   - *B360 Model - Business Entity Fi*
-6. Open Power Query Editor (`Data > Get Data > Launch Power Query Editor`) to modify IDMC REST API queries and transform the data as needed.
-
-## Configuration
-
-On the `Config` sheet, specify:
-
-- `Login URL` — IDMC REST API login URL
-- `Username` — your IDMC username
-
-### Additional fields:
-
-- `baseApiUrl` — Base URL for Administrator and CDI services  
-- `frsApiUrl` — URL for services supporting Explorer in B360, CDI, CAI (undocumented API)
-- `mdmApiUrl` — URL for MDM REST API
-- `avosApiUrl` — URL for CAI REST API
-- `Session Id` — used for authorization in IDMC REST API requests
-
-These fields are filled automatically after login. In some cases, actual URLs may differ from those generated automatically. You can manually enter the correct URL and uncheck the `Overwrite URLs by login data` checkbox to prevent them from being overwritten during login.
-
-### Authorization Script
-
-On the `PS_Script` sheet, you'll find a PowerShell script for IDMC authorization. For everyday use, it is recommended to hide this sheet.
-
-## License
-
-MIT License
 
 ---
 
-# Informatica IDMC Excel (на русском)
+## Installation and Usage
 
-**Informatica IDMC Excel** — это утилита для взаимодействия с платформой Informatica Intelligent Data Management Cloud (IDMC) с использованием Microsoft Excel и Power Query.
+1. Download the Excel file (`.xlsm`) with macros enabled.
+2. Open it in Excel and enable macros when prompted.
+3. On the `Config` sheet, provide:
+   - `Login URL`
+   - `Username`
+4. Click the **Login** button and enter your password when prompted.
+5. After successful login, you can refresh the following data sheets:
+   - *Assets List*
+   - *B360 Model-Business Entities*
+   - *B360 Model-BE Field*
+6. You can also use **Power Query Editor** to inspect and customize data queries:
+   `Data > Get Data > Launch Power Query Editor`.
 
-Проект предназначен для упрощения повседневной работы с метаданными, заданиями и объектами IDMC через привычный интерфейс Excel.
+---
 
-## Возможности
+## Configuration
 
-- Подключение к IDMC через REST API
-- Получение списка задач, маппингов, соединений и других объектов
-- Загрузка метаданных в Excel
-- Работа с несколькими организациями и средами
+![settings]('/images/config-content.png')
 
+### Main Fields (`Config` sheet)
 
-## Установка и использование
+- **Login URL** — IDMC v3 REST API login endpoint  
+- **Username** — your IDMC login email  
+- **Session Id** — auto-filled upon successful login and used for API requests
 
-1. Скачайте файл Excel (`.xlsm`), содержащий макросы.
-2. Разрешите выполнение макросов в Excel.
-3. На листе `Config` укажите `Login URL` и `Username`.
-4. Нажмите кнопку логина и введите пароль.
-5. В файле представлены 3 листа для демонстрации работы:
-   - *B360 Tenant Model*
-   - *B360 Model - Business Entity*
-   - *B360 Model - Business Entity Fi*
-6. Откройте Power Query Editor (`Данные > Получить данные > Запуск редактора Power Query`), чтобы изменить запросы к IDMC REST API и преобразовать данные под свои нужды.
+### API Base URLs
 
-## Настройка
+The following URLs are auto-filled after login. To override them manually, uncheck `Overwrite URLs by login data`.
 
-На листе `Config` укажите:
+- `baseApiUrl` — Base API for CDI and Administrator services  
+- `frsApiUrl` — FRS API used for various UI metadata (e.g., B360, CDI, CAI)  
+- `mdmApiUrl` — API endpoint for MDM metadata and operations  
+- `avosApiUrl` — API endpoint for CAI (Cloud Application Integration)  
 
-- `Login URL` — URL для авторизации в IDMC через REST API
-- `Username` — имя пользователя IDMC
+---
 
-### Дополнительные поля:
+## New UI Elements
 
-- `baseApiUrl` — базовый URL для сервисов Administrator и CDI  
-- `frsApiUrl` — URL для сервисов Explorer в B360, CDI, CAI (недокументированный API)
-- `mdmApiUrl` — URL для MDM REST API
-- `avosApiUrl` — URL для CAI REST API
-- `Session Id` — используется для авторизации REST API-запросов к IDMC
+### Retrieve disabled fields (B360)
 
-Поля заполняются автоматически после авторизации. В некоторых случаях реальные URL могут отличаться от сгенерированных. Введите правильный URL вручную и снимите флажок `Overwrite URLs by login data`, чтобы избежать перезаписи при каждом входе.
+This checkbox allows you to include **disabled fields** in B360 metadata queries. When checked, disabled (hidden or deprecated) fields will be retrieved along with active ones.
 
-### Скрипт авторизации
+### Assets List Selector
 
-На листе `PS_Script` размещён PowerShell-скрипт для авторизации в IDMC. Для повседневного использования рекомендуется скрыть этот лист.
+![settings]('/images/assets-list-filter.png')
 
-## Лицензия
+This section lets you choose which object types should be retrieved when refreshing the `Assets List` worksheet. Objects are grouped by service module:
+
+- **B360** — Business Entities, Events, Reference Data, Rules, etc.
+- **CDQ / Profiling** — Cleanse, Deduplicate, Verifier, Parser, etc.
+- **CDI** — Mappings, Tasks, Mapplets, Replication Tasks, etc.
+- **CAI** — App Connections, Services, Processes, etc.
+- **Administrator** — Runtime Environments, Schedules, Connections
+
+You can enable or disable specific types using checkboxes.
+
+### Limit of records
+
+A numeric input field for specifying the maximum number of records to fetch for each selected object type.  
+**Default:** `1000`.
+
+---
+
+## Content Worksheets
+
+### Assets List
+
+Populated with metadata based on selected object types and record limit.  
+Click the **Refresh Assets List** button to retrieve the latest data.
+
+### B360 Model-Business Entities
+
+Displays business entity definitions from B360. Useful for analyzing model structure and entity relationships.
+
+### B360 Model-BE Fields
+
+Displays detailed field-level metadata for B360 entities.  
+If **Retrieve disabled fields (B360)** is enabled, it will also include non-active fields.
+
+---
+
+## Authorization Script
+
+A PowerShell script is available on the hidden sheet `sys_PS_Script` for obtaining the Session ID manually via API.  
+This sheet is intended for advanced use and can be hidden during normal operation.
+
+---
+
+## License
 
 MIT License
