@@ -14,7 +14,7 @@ This tool simplifies daily work with metadata, tasks, and IDMC objects via a fam
 - Load metadata directly into Excel
 - Select which asset types to retrieve
 - Set custom record limits for asset queries
-- Option to include disabled fields from B360 metadat
+- Option to include disabled fields from B360 metadata
 - Support for multiple organizations and environments
 
 
@@ -39,7 +39,7 @@ This tool simplifies daily work with metadata, tasks, and IDMC objects via a fam
 
 ## Configuration
 
-![settings]('/images/config-content.png')
+![settings](images/config-content.png)
 
 ### Main Fields (`Config` sheet)
 
@@ -66,7 +66,7 @@ This checkbox allows you to include **disabled fields** in B360 metadata queries
 
 ### Assets List Selector
 
-![settings]('/images/assets-list-filter.png')
+![settings](images/assets-list-filter.png)
 
 This section lets you choose which object types should be retrieved when refreshing the `Assets List` worksheet. Objects are grouped by service module:
 
